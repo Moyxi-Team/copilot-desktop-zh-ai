@@ -2,6 +2,7 @@
   "texts": {
     "Sidebar": "侧边栏",
     "Quick links": "快捷链接",
+    "Preview a running dev server in a browser canvas without leaving the app.": "无需离开应用，即可在浏览器画布中预览正在运行的开发服务器。",
     "Search or type org/project/repo, or paste a URL…": "搜索或输入组织/项目/仓库，或粘贴 URL…",
     "Search organizations": "搜索组织",
     "Search projects": "搜索项目",
