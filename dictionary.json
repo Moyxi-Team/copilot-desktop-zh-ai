@@ -236,6 +236,7 @@
     "Or type your own answer…": "或者输入你自己的回答…",
     "Ask anything or paste a URL. Use / for commands, & sessions, # issues…": "可以询问任何问题或粘贴 URL。使用 / 执行命令、& 查找会话、# 查找问题…",
     "Open a canvas (editor, browser, or terminal) in the side panel.": "在侧边面板中打开画布（编辑器、浏览器或终端）。",
+    "Ask for the create-canvas skill to build a custom interactive canvas for your task.": "请请求 create-canvas 技能为你的任务构建自定义交互式画布。",
     "What causes memory leaks in long-running apps and how do I find them?": "是什么导致长时间运行的应用发生内存泄漏？我该如何找到它们？",
     "Compare monorepo vs multi-repo and when to use each.": "比较单体仓库和多仓库，以及各自适用的场景。",
     "Design a REST API with pagination, filtering, and error handling.": "设计一个包含分页、筛选和错误处理的 REST API。",
