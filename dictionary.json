@@ -2703,6 +2703,11 @@
       "g"
     ],
     [
+      "^Permanently deletes (.+?) and all its files \\(about ([^)]+)\\)\\. This can't be undone\\.$",
+      "永久删除 $1 及其所有文件（约 $2）。此操作无法撤销。",
+      "g"
+    ],
+    [
       "^Permanently deletes (.+?) and all its files\\. This can't be undone\\.$",
       "永久删除 $1 及其所有文件。此操作无法撤销。",
       "g"
