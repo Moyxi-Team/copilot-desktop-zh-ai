@@ -1,0 +1,50 @@
+name: Bug 报告
+description: 报告可复现的汉化或启动问题
+title: "[Bug] "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢反馈。请先确认问题没有包含账号、令牌、路径或其他敏感信息。
+  - type: input
+    id: copilot-version
+    attributes:
+      label: GitHub Copilot 版本
+      description: 例如 1.1.x。
+      placeholder: 1.1.x
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: 环境信息
+      description: 请填写 Windows 版本、WebView2 Runtime 版本和 Node.js 版本。
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+      description: 请按顺序描述从启动到出现问题的步骤。
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 预期结果
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际结果
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: 脱敏日志
+      description: 可粘贴 injector.log 相关片段，请移除账号、令牌和本地敏感路径。
+      render: text

@@ -1,0 +1,36 @@
+name: 功能建议
+description: 建议新增汉化覆盖或改进使用体验
+title: "[Feature] "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: use-case
+    attributes:
+      label: 使用场景
+      description: 你希望在什么场景下解决什么问题？
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 建议内容
+      description: 请描述希望新增、修改或覆盖的功能和文案。
+    validations:
+      required: true
+  - type: textarea
+    id: examples
+    attributes:
+      label: 文案或复现示例
+      description: 如适用，请提供英文原文、出现位置和动态变量示例。
+    validations:
+      required: false
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: 提交前确认
+      options:
+        - label: 我已搜索现有 Issue，确认不是重复建议。
+          required: true
+        - label: 我没有提交账号、令牌或其他敏感信息。
+          required: true

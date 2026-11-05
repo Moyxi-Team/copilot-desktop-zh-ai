@@ -12,12 +12,12 @@
 
 ## 致谢与 AI 辅助说明
 
-本项目基于 [zhao818/copilot-desktop-zh](https://github.com/zhao818/copilot-desktop-zh) 原版项目继续完善，并保留原项目 MIT License。使用 AI 辅助检查客户端界面与内嵌选项文案、补充尚未汉化的条目及兼容客户端文案变更；新增译文通过词典匹配检查，具体表达可能需要结合客户端界面继续校对。DeepL 自动翻译为可选功能，仅在本机配置 `DEEPL_AUTH_KEY` 后启用。
+本项目基于 [zhao818/copilot-desktop-zh](https://github.com/zhao818/copilot-desktop-zh) 原版项目继续完善，并保留原项目 MIT License。使用 AI 辅助检查客户端界面与内嵌选项文案；新增中文译文由维护者直接翻译并纳入词典，不调用第三方机器翻译服务，也不上传界面文本。
 
 ## 特性
 
 - **不动应用本体**:不修改 github.exe,应用升级不受影响;
-- **持续扩展界面覆盖**:侧边栏 / 主页 / 聊天 / 设置 / 自动化 / 命令面板 / 快捷键 / 弹窗 / 属性提示等(本地字典 1600+ 条 + 动态模式);
+- **持续扩展界面覆盖**:侧边栏 / 主页 / 聊天 / 设置 / 自动化 / 命令面板 / 快捷键 / 弹窗 / 属性提示等(本地字典 1700+ 条 + 动态模式);
 - **实时生效**:页面内 MutationObserver + 3 秒轮询兜底,React 重渲染 / 刷新后自动重新应用;
 - **不误翻内容**:AI 回复、代码块、技能名、会话标题、用户名等用户内容不会被翻译;
 - **字典可扩展**:编辑 `dictionary.json` 保存即生效,无需重启。
@@ -40,11 +40,12 @@
 ## 工作原理
 
 1. 启动器设置环境变量 `WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS=--remote-debugging-port=9222` 后启动应用(WebView2 官方调试开关);
-2. 注入器 (`inject.js`) 通过 CDP 连接页面 (`http://tauri.localhost`),把字典注入页面:
+2. 注入器 (`inject.js`) 通过 CDP 连接 Copilot 主页面 (`http://tauri.localhost`) 和 Azure DevOps 独立画布页面 (`http://127.0.0.1:<端口>/canvases/<实例 ID>`),把字典注入这些页面:
    - 精确匹配文本节点 → 替换为中文;
    - 同步翻译 placeholder / aria-label / title / alt;
    - 正则模式处理动态文案(如 `9% used` → `$1% 已使用`);
    - 整句机制处理被拆分的文本节点;
+   - 将 `Thinking` 状态统一显示为加粗的“思考中”，在常驻文字上叠加动态扫光，合并拆分或重复渲染的中英文状态文本;
    - 跳过代码块 / 输入框 / 用户内容。
 
 ## 自定义翻译
@@ -65,13 +66,13 @@
 
 注入器会通过 GitHub CLI 读取 `zhao818/copilot-desktop-zh` 的公开 `dictionary.json`,将上游新增条目与本地词典合并。本地已有条目优先,不会被上游覆盖。若 `gh` 不可用、网络失败或上游词典无法解析,注入器会记录警告并继续使用本地词典。
 
-此功能同步的是**上游已经提供的译文**,不是通用机器翻译。客户端新增或改写的文案,需先由上游词典收录或在本地词典中补充后才能完整汉化;未配置下文的 DeepL 自动翻译时,未收录文案不会被自动翻译,也不会上传界面内容。
+此功能只同步上游词典中**已经人工提供的译文**，不会提交客户端界面文本进行机器翻译。客户端更新后出现的新文案，需要由维护者审阅并手工补入 `dictionary.json`；不会调用第三方翻译服务，也不会上传待翻译内容。
 
-### 未收录设置选项的 DeepL 自动翻译
+## 故障排查
 
-若要自动补充客户端更新后新出现的设置选项,可在本机配置环境变量 `DEEPL_AUTH_KEY`。注入器只扫描带开关控件的设置行，并只把其中未匹配的英文文本提交给 DeepL API 翻译为简体中文；不会主动扫描聊天消息或代码。传输内容由设置行实际包含的文本决定。译文以追加方式缓存在 `COPILOT_ZH_CACHE_DIR` 指定目录下的 `auto-translations.jsonl`；未设置该变量时，默认使用注入器目录下的 `cache` 子目录。
-
-未配置 `DEEPL_AUTH_KEY` 时不会向 DeepL 发送任何文本,仅在注入器日志中提示配置要求。DeepL API 的用量、费用及隐私条款由用户账户和套餐决定。
+- 隐藏启动后仍显示英文：检查 `COPILOT_ZH_CACHE_DIR` 下的 `injector.log`。如果反复出现“无法连接 CDP 端口 9222”，说明 WebView2 没有开放调试接口，注入器尚未连接到页面。
+- WebView2 Runtime 150 及更高版本会在宿主进程以管理员权限运行时忽略用户级 `WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS`。可改为以普通权限启动 Copilot；若必须以管理员权限运行，则需要管理员按 Microsoft WebView2 文档配置机器级策略 `HKLM\Software\Policies\Microsoft\Edge\WebView2\AdditionalBrowserArguments`，其中字符串值 `github.exe` 设置为 `--remote-debugging-port=9222`。此设置会持续生效，并允许本机程序调试 Copilot 页面；请勿将该端口暴露到网络。
+- 更新策略或启动参数后，先完全退出 Copilot，再重新运行中文版启动器。确认 `http://127.0.0.1:9222/json` 能返回页面目标后，注入才会生效。
 
 ## 文件结构
 
@@ -88,7 +89,8 @@ copilot-zh/
 ## 已知限制
 
 - 图标 / 图片内嵌的英文无法翻译;
-- 未收录的普通动态文案会保留英文;上游词典收录后可在下次同步时自动获得对应译文。设置选项可按上文配置 DeepL 自动翻译;
+- 未收录的普通动态文案会保留英文;由维护者翻译并加入词典后，运行时即可应用对应译文;
+- 本轮静态审查针对 Copilot 1.1.33 安装包中可读的 Azure DevOps 扩展界面及 Word、PowerPoint、Excel 画布预览页面。此范围不代表全客户端已无英文：主程序 `github.exe` 中的内嵌界面、运行时生成的状态、远程服务内容、AI 或用户提供的内容，以及图标和图片中的文字，仍需通过运行时界面核验;
 - 调试端口 9222 仅供本机访问;如与其他调试器冲突,可自行改端口(需同步改启动器与 `inject.js`);
 - 汉化是运行时注入,关闭注入器或刷新页面后恢复英文(重新打开启动器即恢复中文)。
 
@@ -99,3 +101,9 @@ copilot-zh/
 ## License
 
 MIT
+
+## 贡献与反馈
+
+请先阅读 [CONTRIBUTING.md](CONTRIBUTING.md)。发现未汉化文案时，欢迎提交可复现步骤、Copilot 版本、截图或最小化词典补丁；也可以使用 [Bug 报告表单](.github/ISSUE_TEMPLATE/bug_report.yml) 或 [功能建议表单](.github/ISSUE_TEMPLATE/feature_request.yml)。
+
+如果这个项目对你有帮助，欢迎在 GitHub 上点 Star，并通过 Issue 反馈新的动态文案或兼容性问题。
