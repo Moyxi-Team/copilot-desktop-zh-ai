@@ -64,6 +64,9 @@
     "Could not open PowerPoint.": "无法打开 PowerPoint。",
     "Could not open repository": "无法打开仓库",
     "Try again. Check the repository remote and linked account if the problem continues.": "请重试。如果问题仍然存在，请检查仓库远程地址和关联账户。",
+    "Error details": "错误详情",
+    "Complete diagnostic output for error: Could not open repository": "错误“无法打开仓库”的完整诊断输出",
+    "Copy error": "复制错误",
     "Document preview": "文档预览",
     "Workbook preview": "工作簿预览",
     "First slide preview": "首张幻灯片预览",
@@ -2294,6 +2297,16 @@
     }
   },
   "textPatterns": [
+    [
+      "^Complete diagnostic output for error: Could not open repository(?:\\s*[:：]\\s*|\\s+)(.+)$",
+      "错误“无法打开仓库：$1”的完整诊断输出",
+      ""
+    ],
+    [
+      "^Complete diagnostic output for error: (.+)$",
+      "错误“$1”的完整诊断输出",
+      ""
+    ],
     [
       "^Could not open repository(?:\\s*[:：]\\s*|\\s+)(.+)$",
       "无法打开仓库：$1",
