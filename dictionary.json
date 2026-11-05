@@ -1784,6 +1784,8 @@
     "Trust this repository": "信任此仓库",
     "Trust the GitHub Copilot 中文版源码 repository?": "信任 GitHub Copilot 中文版源码仓库？",
     "Allow repository configuration, hooks, extensions, plugins, and MCP servers to run code, including future updates. Tools still follow your approval settings.": "允许仓库配置、钩子、扩展、插件和 MCP 服务器运行代码（包括未来更新）。工具仍会遵循你的批准设置。",
+    "Update GitHub authorization for @MoyxiStudent to let Copilot manage connector connections and use their tools. This is separate from signing in to the connector.": "请更新 @MoyxiStudent 的 GitHub 授权，以允许 Copilot 管理连接器连接并使用其工具。这与登录连接器是两回事。",
+    "Update authorization": "更新授权",
     "All repository sessions are pinned": "所有仓库会话都已固定。",
     "Write inject.js": "写入 inject.js",
     "Write this file": "写入此文件",
@@ -2283,6 +2285,21 @@
     }
   },
   "textPatterns": [
+    [
+      "^Update GitHub authorization for @([A-Za-z0-9_-]+) to let Copilot manage connector connections and use their tools\\. This is separate from signing in to the connector\\.$",
+      "请更新 @$1 的 GitHub 授权，以允许 Copilot 管理连接器连接并使用其工具。这与登录连接器是两回事。",
+      ""
+    ],
+    [
+      "^\"(.+)\" wants to switch you$",
+      "“$1”想要切换你",
+      ""
+    ],
+    [
+      "^Open \"(.+)\"\\?$",
+      "打开“$1”？",
+      ""
+    ],
     [
       "^Trust the (.+) repository\\?$",
       "信任 $1 仓库？",
