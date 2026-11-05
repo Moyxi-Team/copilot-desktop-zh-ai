@@ -1299,6 +1299,10 @@
     "Session": "会话",
     "Session unavailable": "会话不可用",
     "We couldn't reconnect to your session.": "无法重新连接到你的会话。",
+    "Worktree folder not found": "未找到工作树文件夹",
+    "Worktree folder not found.": "未找到工作树文件夹。",
+    "This session's folder was moved or deleted. Put it back where it was, then retry.": "此会话的文件夹已被移动或删除。请将其放回原位置，然后重试。",
+    "Its sessions, including ones started in Copilot CLI, are permanently deleted with their history. This can't be undone.": "它的会话（包括在 Copilot CLI 中启动的会话）及其历史记录将被永久删除。此操作无法撤销。",
     "1.11 AI credits": "1.11 AI 积分",
     "Configure in settings →": "在设置中配置 →",
     "No .github/github-app.yml found. Add a config file or configure scripts in project settings.": "未找到 .github/github-app.yml。请在项目设置中添加配置文件或配置脚本。",
@@ -2299,6 +2303,26 @@
     }
   },
   "textPatterns": [
+    [
+      "^Its\\s+sessions,\\s+including\\s+ones\\s+started\\s+in\\s+Copilot\\s+CLI,\\s+are\\s+permanently\\s+deleted\\s+with\\s+their\\s+history\\.\\s+This\\s+can't\\s+be\\s+undone([.!…])?$",
+      "它的会话（包括在 Copilot CLI 中启动的会话）及其历史记录将被永久删除。此操作无法撤销$1",
+      ""
+    ],
+    [
+      "^Worktree folder not found\\.?\\s+This session's folder was moved or deleted\\. Put it back where it was, then retry([.!…])?$",
+      "未找到工作树文件夹。此会话的文件夹已被移动或删除。请将其放回原位置，然后重试$1",
+      ""
+    ],
+    [
+      "^Worktree folder not found([.!…])$",
+      "未找到工作树文件夹$1",
+      ""
+    ],
+    [
+      "^This session's folder was moved or deleted\\. Put it back where it was, then retry([.!…])$",
+      "此会话的文件夹已被移动或删除。请将其放回原位置，然后重试$1",
+      ""
+    ],
     [
       "^Session unavailable([.!…])$",
       "会话不可用$1",
