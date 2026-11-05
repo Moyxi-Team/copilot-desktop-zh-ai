@@ -1297,6 +1297,8 @@
     "Reasoning effort set to Low": "推理强度已设为低",
     "Session:": "会话：",
     "Session": "会话",
+    "Session unavailable": "会话不可用",
+    "We couldn't reconnect to your session.": "无法重新连接到你的会话。",
     "1.11 AI credits": "1.11 AI 积分",
     "Configure in settings →": "在设置中配置 →",
     "No .github/github-app.yml found. Add a config file or configure scripts in project settings.": "未找到 .github/github-app.yml。请在项目设置中添加配置文件或配置脚本。",
@@ -2297,6 +2299,16 @@
     }
   },
   "textPatterns": [
+    [
+      "^Session unavailable([.!…])$",
+      "会话不可用$1",
+      ""
+    ],
+    [
+      "^We (?:couldn't|could not) reconnect to your session([.!…])$",
+      "无法重新连接到你的会话$1",
+      ""
+    ],
     [
       "^Complete diagnostic output for error: Could not open repository(?:\\s*[:：]\\s*|\\s+)(.+)$",
       "错误“无法打开仓库：$1”的完整诊断输出",
