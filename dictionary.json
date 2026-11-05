@@ -62,6 +62,8 @@
     "The Copilot host returned invalid MCP Apps capabilities.": "Copilot 宿主返回了无效的 MCP Apps 功能信息。",
     "The Copilot card could not initialize.": "无法初始化 Copilot 卡片。",
     "Could not open PowerPoint.": "无法打开 PowerPoint。",
+    "Could not open repository": "无法打开仓库",
+    "Try again. Check the repository remote and linked account if the problem continues.": "请重试。如果问题仍然存在，请检查仓库远程地址和关联账户。",
     "Document preview": "文档预览",
     "Workbook preview": "工作簿预览",
     "First slide preview": "首张幻灯片预览",
@@ -288,6 +290,10 @@
     "Start": "开始",
     "Started": "已开始",
     "Stopped": "已停止",
+    "Move up": "上移",
+    "Move down": "下移",
+    "Custom size...": "自定义大小…",
+    "Custom size…": "自定义大小…",
     "Run updated translation injector": "运行更新后的翻译注入器",
     "Restart corrected translation injector": "重新启动已修正的翻译注入器",
     "Run refreshed translation injector": "运行已刷新的翻译注入器",
@@ -2288,6 +2294,11 @@
     }
   },
   "textPatterns": [
+    [
+      "^Could not open repository(?:\\s*[:：]\\s*|\\s+)(.+)$",
+      "无法打开仓库：$1",
+      ""
+    ],
     [
       "^Preview\\s+a\\s+running\\s+dev\\s+server\\s+in\\s+a\\s+browser\\s+canvas\\s+without\\s+leaving\\s+the\\s+app\\.$",
       "无需离开应用，即可在浏览器画布中预览正在运行的开发服务器。",
