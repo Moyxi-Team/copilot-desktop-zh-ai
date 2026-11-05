@@ -2287,6 +2287,11 @@
   },
   "textPatterns": [
     [
+      "^Preview\\s+a\\s+running\\s+dev\\s+server\\s+in\\s+a\\s+browser\\s+canvas\\s+without\\s+leaving\\s+the\\s+app\\.$",
+      "无需离开应用，即可在浏览器画布中预览正在运行的开发服务器。",
+      ""
+    ],
+    [
       "^Update GitHub authorization for @([A-Za-z0-9_-]+) to let Copilot manage connector connections and use their tools\\. This is separate from signing in to the connector\\.$",
       "请更新 @$1 的 GitHub 授权，以允许 Copilot 管理连接器连接并使用其工具。这与登录连接器是两回事。",
       ""
