@@ -2307,6 +2307,11 @@
   },
   "textPatterns": [
     [
+      "^Always trust (.+)$",
+      "始终信任 $1",
+      ""
+    ],
+    [
       "^Failed\\s+to\\s+verify\\s+the\\s+prepared\\s+branch[.!…]?$",
       "无法验证已准备好的分支。",
       ""
@@ -4183,6 +4188,11 @@
     "%username%-": "%username%-"
   },
   "attrPatterns": [
+    [
+      "^Always trust (.+)$",
+      "始终信任 $1",
+      ""
+    ],
     [
       "^Trust the (.+) repository\\?$",
       "信任 $1 仓库？",
