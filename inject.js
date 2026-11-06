@@ -112,6 +112,7 @@ function buildPayload() {
     "};" +
     "const SAMPLE_RE = /^(.+)\\. Creates a sample project\\.$/;" +
     "const CHAT_RE = /^Chat: (.+)$/" + ";" +
+    "const THINKING_LABEL = '思考中…';" +
     "const isThinkingLabel = value => /^(?:Thinking|Think|思考中)(?:\\.{3}|…)?$/i.test(value.trim());" +
     "const normalizeThinkingLabels = root => {" +
     "  const scope = root.body || root;" +
@@ -121,7 +122,7 @@ function buildPayload() {
     "  const hasChinese = value => /思考中/.test(compact(value));" +
     "  const candidates = [...scope.querySelectorAll('*')].filter(el => isSequence(el.textContent) && !el.closest('pre, code, script, style, textarea, [contenteditable=\"true\"]'));" +
     "  const collapse = el => {" +
-    "    const translated = /(?:\\.{3}|…)\\s*$/.test(el.textContent) ? '思考中…' : '思考中';" +
+    "    const translated = THINKING_LABEL;" +
     "    replaceThinkingText(el, translated, root);" +
     "  };" +
     "  candidates.filter(el => hasEnglish(el.textContent) && hasChinese(el.textContent)).forEach(el => {" +
@@ -131,6 +132,13 @@ function buildPayload() {
     "  [...scope.querySelectorAll('*')].filter(el => isSequence(el.textContent) && hasEnglish(el.textContent) && !hasChinese(el.textContent) && !el.closest('pre, code, script, style, textarea, [contenteditable=\"true\"]')).forEach(el => {" +
     "    if ([...el.children].some(child => isSequence(child.textContent) && hasEnglish(child.textContent) && !hasChinese(child.textContent))) return;" +
     "    collapse(el);" +
+    "  });" +
+    "  [...scope.querySelectorAll('[data-text],[data-label],[aria-label],[title],.text-shimmer-overlay-text')].forEach(el => {" +
+    "    if (el.closest('pre, code, script, style, textarea, [contenteditable=\"true\"]')) return;" +
+    "    ['data-text','data-label','aria-label','title'].forEach(attribute => {" +
+    "      const value = el.getAttribute(attribute);" +
+    "      if (value && isThinkingLabel(value)) el.setAttribute(attribute, THINKING_LABEL);" +
+    "    });" +
     "  });" +
     "};" +
     "const ensureThinkingLabelStyle = root => {" +
@@ -142,7 +150,7 @@ function buildPayload() {
     "};" +
     "const markThinkingLabel = (el, label, root = document) => {" +
     "  if (!el) return;" +
-    "  const translated = label || el.textContent.trim();" +
+    "  const translated = isThinkingLabel(label || '') ? THINKING_LABEL : (label || el.textContent.trim());" +
     "  el.setAttribute('data-copilot-zh-thinking-label', translated);" +
     "  ['data-text','aria-label','title','data-label'].forEach(attribute => {" +
     "    if (el.getAttribute && isThinkingLabel(el.getAttribute(attribute) || '')) el.setAttribute(attribute, translated);" +
@@ -178,8 +186,9 @@ function buildPayload() {
     "      const t = n.textContent.trim();" +
     "      if (!t || t.length > 400 || t.length < 2) continue;" +
     "      if (DICT.texts[t] !== undefined) {" +
-    "        if (isThinkingLabel(t)) markThinkingLabel(parent, DICT.texts[t]);" +
-    "        if (n.nodeValue.trim() !== DICT.texts[t]) { n.nodeValue = DICT.texts[t]; replaced++; }" +
+    "        const translated = isThinkingLabel(t) ? THINKING_LABEL : DICT.texts[t];" +
+    "        if (isThinkingLabel(t)) markThinkingLabel(parent, translated);" +
+    "        if (n.nodeValue.trim() !== translated) { n.nodeValue = translated; replaced++; }" +
     "        continue;" +
     "      }" +
     "      const contextual = contextualText(t, parent);" +
@@ -187,7 +196,7 @@ function buildPayload() {
     "      for (let i = 0; i < textRes.length; i++) {" +
     "        textRes[i][0].lastIndex = 0;" +
     "        if (textRes[i][0].test(t)) {" +
-    "          const v = t.replace(textRes[i][0], textRes[i][1]);" +
+    "          const v = isThinkingLabel(t) ? THINKING_LABEL : t.replace(textRes[i][0], textRes[i][1]);" +
     "          if (isThinkingLabel(t)) markThinkingLabel(parent, v);" +
     "          if (n.nodeValue !== v) { n.nodeValue = v; replaced++; }" +
     "          break;" +
@@ -208,7 +217,7 @@ function buildPayload() {
     "      }" +
     "      if (v === undefined) v = contextualText(full, el);" +
     "      if (v !== undefined && isThinkingLabel(full)) {" +
-    "        if (replaceThinkingText(el, v, document)) replaced++;" +
+    "        if (replaceThinkingText(el, THINKING_LABEL, document)) replaced++;" +
     "        return;" +
     "      }" +
     "      if (v !== undefined && (el.innerText || el.textContent).replace(/\\s+/g, ' ').trim() !== v) { el.textContent = v; replaced++; }" +
@@ -253,10 +262,10 @@ function buildPayload() {
     "      while (sn = sw.nextNode()) {" +
     "        const st = sn.textContent.trim();" +
     "        if (!st || st.length > 500) continue;" +
-    "        let sv = DICT.texts[st];" +
+    "        let sv = isThinkingLabel(st) ? THINKING_LABEL : DICT.texts[st];" +
     "        if (sv === undefined) { for (let i = 0; i < textRes.length; i++) { textRes[i][0].lastIndex = 0; if (textRes[i][0].test(st)) { textRes[i][0].lastIndex = 0; sv = st.replace(textRes[i][0], textRes[i][1]); if (isThinkingLabel(st)) markThinkingLabel(sn.parentElement, sv, root); break; } } }" +
     "        if (sv === undefined) sv = contextualText(st, sn.parentElement);" +
-    "        if (sv !== undefined && isThinkingLabel(st)) markThinkingLabel(sn.parentElement, sv, root);" +
+    "        if (sv !== undefined && isThinkingLabel(st)) markThinkingLabel(sn.parentElement, THINKING_LABEL, root);" +
     "        if (sv !== undefined && sn.nodeValue !== sv) { sn.nodeValue = sv; replaced++; }" +
     "      }" +
     "      normalizeThinkingLabels(root);" +
