@@ -562,6 +562,7 @@
     "Open project settings to choose an account that can access this repository, or grant repository access to the selected account.": "打开项目设置，选择一个可以访问此仓库的账户，或为所选账户授予仓库访问权限。",
     "查看详情": "查看详情",
     "Change the GitHub account for this project?": "要为此项目更改 GitHub 账户吗？",
+    "Change the GitHub account for this repository?": "更改此仓库的 GitHub 账户？",
     "Set as default": "设为默认",
     "Update authorization": "更新授权",
     "The session stopped responding before the response finished.": "会话在响应完成前停止响应。",
@@ -637,6 +638,7 @@
     "AI credits": "AI 点数",
     "Upgrade": "升级",
     "You've used 75% of your AI credits. Upgrade to continue past the limit.": "你已使用 75% 的 AI 点数。升级后即可继续使用。",
+    "You've used all of your AI credits. Upgrade to keep going. Resets in 24d": "你的 AI 点数已用完。升级后即可继续使用。将在 24 天后重置。",
     "You've used all your Chat messages. Upgrade to keep going.": "你已用完所有聊天消息。升级后可继续使用。",
     "(resets monthly)": "（每月重置）",
     "Additional usage disabled": "额外用量已禁用",
@@ -2303,6 +2305,16 @@
     }
   },
   "textPatterns": [
+    [
+      "^All\\s+sessions\\s+in\\s+this\\s+repository\\s+will\\s+run\\s+and\\s+bill\\s+under\\s+@([A-Za-z0-9-]+)\\.\\s+Ones\\s+that\\s+are\\s+running\\s+may\\s+restart\\s+to\\s+apply\\s+the\\s+change,\\s+and\\s+you\\s+can\\s+switch\\s+again\\s+in\\s+repository\\s+settings\\.$",
+      "此仓库中的所有会话都将使用 @$1 账户运行并计费。正在运行的会话可能会重启以应用更改；你也可以在仓库设置中再次切换账户。",
+      ""
+    ],
+    [
+      "^You've\\s+used\\s+all\\s+of\\s+your\\s+AI\\s+credits\\.\\s+Upgrade\\s+to\\s+keep\\s+going\\.\\s+Resets\\s+in\\s+(\\d+)\\s*(?:days?|d)$",
+      "你的 AI 点数已用完。升级后即可继续使用。将在 $1 天后重置。",
+      ""
+    ],
     [
       "^Its\\s+sessions,\\s+including\\s+ones\\s+started\\s+in\\s+Copilot\\s+CLI,\\s+are\\s+permanently\\s+deleted\\s+with\\s+their\\s+history\\.\\s+This\\s+can't\\s+be\\s+undone([.!…])?$",
       "它的会话（包括在 Copilot CLI 中启动的会话）及其历史记录将被永久删除。此操作无法撤销$1",

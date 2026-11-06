@@ -10,7 +10,7 @@
 - 不要提交日志、缓存、账号信息、令牌或其他敏感数据。
 - 不要把真实本地路径、截图中的仓库名或可识别的会话内容直接提交到 Issue、词典或文档中；请先脱敏。
 
-## 翻译修改
+## 翻译修改规范
 
 1. 在 `dictionary.json` 中优先使用精确文本；对带仓库名、账号名、数字等变量的文案使用 `textPatterns`。
 2. 对 `placeholder`、`aria-label`、`title`、`alt` 等属性使用 `attrs` 或 `attrPatterns`。
@@ -27,15 +27,15 @@ node -e "JSON.parse(require('fs').readFileSync('dictionary.json','utf8')); conso
 node --check inject.js
 ```
 
-同时确认新增 YAML 可解析、路径大小写与 README 中的文件名一致，并检查 `git diff --check`。
+同时确认新增 YAML 可以解析、路径大小写与 README 中的文件名一致，并检查 `git diff --check`。
 
 如果要测试运行时效果，请使用项目自带的 **`GitHub Copilot 中文运行版`** 文件夹和启动器；不要直接替换或修改官方 `github.exe`。
 
-## 提交与 Issue
+## 提交与问题反馈
 
-- Commit message 请简洁说明变更，例如 `fix: translate dynamic trust repository prompt`。
+- 提交信息请简洁说明变更，例如 `fix: translate dynamic trust repository prompt`；命令和提交信息中的英文标识符可按代码库约定保留。
 - 一个提交尽量只解决一个主题。
-- Bug 报告请提供 Copilot 版本、Windows/WebView2 环境、复现步骤、预期/实际结果和脱敏日志。
-- 功能建议请说明使用场景和希望覆盖的界面文案。
+- 问题报告请提供 Copilot 版本、Windows/WebView2 环境、复现步骤、预期结果、实际结果和脱敏日志。
+- 功能建议请说明使用场景，以及希望覆盖的界面文案。
 
-提交 Pull Request 前，请确认没有包含本地路径、截图中的敏感信息或未授权的第三方内容。
+提交 Pull Request（PR）前，请确认没有包含本地路径、截图中的敏感信息或未授权的第三方内容。

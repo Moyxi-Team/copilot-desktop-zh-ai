@@ -1,18 +1,18 @@
-name: Bug 报告
+name: 问题报告
 description: 报告可复现的汉化或启动问题
-title: "[Bug] "
+title: "[问题] "
 labels:
   - bug
 body:
   - type: markdown
     attributes:
       value: |
-        感谢反馈。请先确认问题没有包含账号、令牌、路径或其他敏感信息。
+        感谢反馈！请先确认内容中不包含账号、令牌、本地路径或其他敏感信息。
   - type: input
     id: copilot-version
     attributes:
       label: GitHub Copilot 版本
-      description: 例如 1.1.x。
+      description: 例如：1.1.x。
       placeholder: 1.1.x
     validations:
       required: true
@@ -45,6 +45,6 @@ body:
   - type: textarea
     id: logs
     attributes:
-      label: 脱敏日志
-      description: 可粘贴 injector.log 相关片段，请移除账号、令牌和本地敏感路径。
+      label: 脱敏后的日志
+      description: 可粘贴 `injector.log` 相关片段，请移除账号、令牌和本地敏感路径。
       render: text
