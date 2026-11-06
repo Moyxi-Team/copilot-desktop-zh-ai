@@ -1301,6 +1301,8 @@
     "Reasoning effort set to Low": "推理强度已设为低",
     "Session:": "会话：",
     "Session": "会话",
+    "Discard session?": "放弃会话？",
+    "Discard session": "放弃会话",
     "Session unavailable": "会话不可用",
     "We couldn't reconnect to your session.": "无法重新连接到你的会话。",
     "Worktree folder not found": "未找到工作树文件夹",
@@ -2307,6 +2309,11 @@
     }
   },
   "textPatterns": [
+    [
+      "^(.+?)\\s+hasn[’']t\\s+been\\s+started\\s+and\\s+will\\s+be\\s+permanently\\s+discarded\\.$",
+      "会话“$1”尚未启动，将被永久放弃。",
+      ""
+    ],
     [
       "^Always trust (.+)$",
       "始终信任 $1",
@@ -4189,6 +4196,11 @@
     "%username%-": "%username%-"
   },
   "attrPatterns": [
+    [
+      "^(.+?)\\s+hasn[’']t\\s+been\\s+started\\s+and\\s+will\\s+be\\s+permanently\\s+discarded\\.$",
+      "会话“$1”尚未启动，将被永久放弃。",
+      ""
+    ],
     [
       "^Always trust (.+)$",
       "始终信任 $1",
