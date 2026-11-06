@@ -142,7 +142,15 @@ function buildPayload() {
     "};" +
     "const markThinkingLabel = (el, label, root = document) => {" +
     "  if (!el) return;" +
-    "  el.setAttribute('data-copilot-zh-thinking-label', label || el.textContent.trim());" +
+    "  const translated = label || el.textContent.trim();" +
+    "  el.setAttribute('data-copilot-zh-thinking-label', translated);" +
+    "  ['data-text','aria-label','title','data-label'].forEach(attribute => {" +
+    "    if (el.getAttribute && isThinkingLabel(el.getAttribute(attribute) || '')) el.setAttribute(attribute, translated);" +
+    "    if (!el.querySelectorAll) return;" +
+    "    el.querySelectorAll('[' + attribute + ']').forEach(node => {" +
+    "      if (isThinkingLabel(node.getAttribute(attribute) || '')) node.setAttribute(attribute, translated);" +
+    "    });" +
+    "  });" +
     "  ensureThinkingLabelStyle(root);" +
     "};" +
     "const replaceThinkingText = (el, label, owner = document) => {" +
