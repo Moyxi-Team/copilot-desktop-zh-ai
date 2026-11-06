@@ -486,6 +486,7 @@
     "Editing messages is not available in Side chats.": "侧边聊天中无法编辑消息。",
     "Repository picker package icon could not be loaded.": "无法加载仓库选择器中的软件包图标。",
     "The selected environment did not report the repository default branch.": "所选环境未提供仓库的默认分支信息。",
+    "Failed to verify the prepared branch.": "无法验证已准备好的分支。",
     "The selected destination is not valid.": "所选目标位置无效。",
     "The selected file exceeds the 40 MB remote download limit.": "所选文件超过 40 MB 的远程下载大小限制。",
     "Side chat sessions currently require a local workspace.": "侧边聊天会话目前需要本地工作区。",
@@ -2305,6 +2306,11 @@
     }
   },
   "textPatterns": [
+    [
+      "^Failed\\s+to\\s+verify\\s+the\\s+prepared\\s+branch[.!…]?$",
+      "无法验证已准备好的分支。",
+      ""
+    ],
     [
       "^All\\s+sessions\\s+in\\s+this\\s+repository\\s+will\\s+run\\s+and\\s+bill\\s+under\\s+@([A-Za-z0-9-]+)\\.\\s+Ones\\s+that\\s+are\\s+running\\s+may\\s+restart\\s+to\\s+apply\\s+the\\s+change,\\s+and\\s+you\\s+can\\s+switch\\s+again\\s+in\\s+repository\\s+settings\\.$",
       "此仓库中的所有会话都将使用 @$1 账户运行并计费。正在运行的会话可能会重启以应用更改；你也可以在仓库设置中再次切换账户。",
