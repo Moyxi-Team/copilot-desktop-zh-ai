@@ -121,19 +121,8 @@ function buildPayload() {
     "  const hasChinese = value => /思考中/.test(compact(value));" +
     "  const candidates = [...scope.querySelectorAll('*')].filter(el => isSequence(el.textContent) && !el.closest('pre, code, script, style, textarea, [contenteditable=\"true\"]'));" +
     "  const collapse = el => {" +
-    "    const owner = root.ownerDocument || root;" +
-    "    const walker = owner.createTreeWalker(el, NodeFilter.SHOW_TEXT);" +
-    "    const nodes = [];" +
-    "    let firstEnglish = null, node;" +
-    "    while (node = walker.nextNode()) {" +
-    "      if (!node.textContent.trim()) continue;" +
-    "      nodes.push(node);" +
-    "      if (!firstEnglish && /[A-Za-z]/.test(node.textContent)) firstEnglish = node;" +
-    "    }" +
-    "    if (!firstEnglish) return;" +
     "    const translated = /(?:\\.{3}|…)\\s*$/.test(el.textContent) ? '思考中…' : '思考中';" +
-    "    markThinkingLabel(el, translated, root);" +
-    "    nodes.forEach(textNode => { textNode.nodeValue = textNode === firstEnglish ? translated : ''; });" +
+    "    replaceThinkingText(el, translated, root);" +
     "  };" +
     "  candidates.filter(el => hasEnglish(el.textContent) && hasChinese(el.textContent)).forEach(el => {" +
     "    if ([...el.children].some(child => isSequence(child.textContent) && hasEnglish(child.textContent) && hasChinese(child.textContent))) return;" +
@@ -155,6 +144,19 @@ function buildPayload() {
     "  if (!el) return;" +
     "  el.setAttribute('data-copilot-zh-thinking-label', label || el.textContent.trim());" +
     "  ensureThinkingLabelStyle(root);" +
+    "};" +
+    "const replaceThinkingText = (el, label, owner = document) => {" +
+    "  if (!el) return false;" +
+    "  const documentRoot = owner.ownerDocument || owner;" +
+    "  const walker = documentRoot.createTreeWalker(el, NodeFilter.SHOW_TEXT);" +
+    "  const nodes = [];" +
+    "  let node;" +
+    "  while (node = walker.nextNode()) if (node.textContent.trim()) nodes.push(node);" +
+    "  if (!nodes.length) return false;" +
+    "  nodes[0].nodeValue = label;" +
+    "  nodes.slice(1).forEach(textNode => { textNode.nodeValue = ''; });" +
+    "  markThinkingLabel(el, label, owner);" +
+    "  return true;" +
     "};" +
     "const apply = () => {" +
     "  try {" +
@@ -196,7 +198,10 @@ function buildPayload() {
     "        }" +
     "      }" +
     "      if (v === undefined) v = contextualText(full, el);" +
-    "      if (v !== undefined && isThinkingLabel(full)) markThinkingLabel(el, v);" +
+    "      if (v !== undefined && isThinkingLabel(full)) {" +
+    "        if (replaceThinkingText(el, v, document)) replaced++;" +
+    "        return;" +
+    "      }" +
     "      if (v !== undefined && (el.innerText || el.textContent).replace(/\\s+/g, ' ').trim() !== v) { el.textContent = v; replaced++; }" +
     "    });" +
     "    document.querySelectorAll('body *').forEach(el => {" +
