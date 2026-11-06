@@ -180,6 +180,7 @@ function buildPayload() {
     "        textRes[i][0].lastIndex = 0;" +
     "        if (textRes[i][0].test(t)) {" +
     "          const v = t.replace(textRes[i][0], textRes[i][1]);" +
+    "          if (isThinkingLabel(t)) markThinkingLabel(parent, v);" +
     "          if (n.nodeValue !== v) { n.nodeValue = v; replaced++; }" +
     "          break;" +
     "        }" +
@@ -245,7 +246,7 @@ function buildPayload() {
     "        const st = sn.textContent.trim();" +
     "        if (!st || st.length > 500) continue;" +
     "        let sv = DICT.texts[st];" +
-    "        if (sv === undefined) { for (let i = 0; i < textRes.length; i++) { textRes[i][0].lastIndex = 0; if (textRes[i][0].test(st)) { textRes[i][0].lastIndex = 0; sv = st.replace(textRes[i][0], textRes[i][1]); break; } } }" +
+    "        if (sv === undefined) { for (let i = 0; i < textRes.length; i++) { textRes[i][0].lastIndex = 0; if (textRes[i][0].test(st)) { textRes[i][0].lastIndex = 0; sv = st.replace(textRes[i][0], textRes[i][1]); if (isThinkingLabel(st)) markThinkingLabel(sn.parentElement, sv, root); break; } } }" +
     "        if (sv === undefined) sv = contextualText(st, sn.parentElement);" +
     "        if (sv !== undefined && isThinkingLabel(st)) markThinkingLabel(sn.parentElement, sv, root);" +
     "        if (sv !== undefined && sn.nodeValue !== sv) { sn.nodeValue = sv; replaced++; }" +
